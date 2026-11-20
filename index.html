@@ -1,0 +1,515 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#020807">
+<title>A CHEAT OFC | PREMIUM</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--green:#00ff9c;--cyan:#00eaff;--bg:#020807}
+body{
+ background:var(--bg);color:white;font-family:Arial,sans-serif;
+ min-height:100vh;overflow-x:hidden;
+}
+#matrix{
+ position:fixed;inset:0;width:100%;height:100%;
+ z-index:-3;opacity:.30
+}
+body:before{
+ content:"";position:fixed;inset:0;pointer-events:none;z-index:5;
+ background:repeating-linear-gradient(
+ transparent 0px,transparent 3px,rgba(0,255,150,.035) 4px
+ )
+}
+.glow{
+ position:fixed;width:280px;height:280px;border-radius:50%;
+ filter:blur(100px);opacity:.13;z-index:-2;pointer-events:none;
+ background:#00ff9c;top:10%;left:5%
+}
+.glow.two{background:#00d9ff;top:60%;left:70%}
+.screen{
+ min-height:100vh;display:none;align-items:center;
+ justify-content:center;padding:25px 15px;
+ position:relative;z-index:2
+}
+.screen.active{display:flex;animation:screenIn .8s ease}
+@keyframes screenIn{
+ from{opacity:0;transform:scale(.96);filter:blur(10px)}
+ to{opacity:1;transform:scale(1);filter:blur(0)}
+}
+.panel{
+ width:min(460px,100%);padding:30px 22px;text-align:center;
+ background:rgba(3,20,15,.88);
+ border:1px solid rgba(0,255,156,.45);
+ border-radius:22px;position:relative;overflow:hidden;
+ box-shadow:0 0 35px rgba(0,255,156,.12),inset 0 0 30px #00ff9c0a;
+}
+.panel:before{
+ content:"";position:absolute;inset:-100%;
+ background:conic-gradient(transparent,#00ff9c,transparent 25%);
+ animation:rotate 6s linear infinite;opacity:.35
+}
+.panel:after{
+ content:"";position:absolute;inset:1px;border-radius:21px;
+ background:#03120e;z-index:0
+}
+.panel>*{position:relative;z-index:1}
+@keyframes rotate{to{transform:rotate(360deg)}}
+.logo-wrap{
+ width:175px;height:175px;margin:0 auto 22px;
+ position:relative;display:grid;place-items:center;
+ perspective:500px
+}
+.logo{
+ width:125px;height:125px;object-fit:cover;border-radius:50%;
+ border:3px solid var(--green);
+ box-shadow:0 0 18px var(--green),0 0 50px #00ff9c66;
+ animation:logoFloat 3s ease-in-out infinite,logoGlow 2s infinite alternate
+}
+@keyframes logoFloat{
+ 0%,100%{transform:translateY(0) rotateY(-8deg)}
+ 50%{transform:translateY(-12px) rotateY(8deg)}
+}
+@keyframes logoGlow{
+ to{box-shadow:0 0 35px var(--cyan),0 0 70px #00ff9c99}
+}
+.ring{
+ position:absolute;inset:0;border:2px solid transparent;
+ border-top-color:var(--green);border-bottom-color:var(--cyan);
+ border-radius:50%;animation:spin 3s linear infinite
+}
+.ring.r2{inset:12px;animation:spin 4s linear infinite reverse;
+ border-left-color:#b000ff;border-right-color:var(--green)}
+@keyframes spin{to{transform:rotate(360deg)}}
+h1{
+ color:var(--green);font-size:28px;letter-spacing:4px;
+ text-shadow:0 0 15px var(--green);margin-bottom:10px
+}
+h2{font-size:21px;color:var(--cyan);margin-bottom:15px}
+p{color:#a7c9bd;line-height:1.6;font-size:13px}
+.terminal{
+ margin:20px 0;padding:14px;text-align:left;
+ border:1px solid #00ff9c55;border-radius:10px;
+ background:#000a08;color:var(--green);
+ font-family:monospace;font-size:12px;line-height:2;
+ min-height:112px
+}
+.cursor{animation:blink .7s infinite}
+@keyframes blink{50%{opacity:0}}
+.progress{
+ height:5px;background:#153027;border-radius:10px;
+ margin:17px 0;overflow:hidden
+}
+.progress span{
+ display:block;width:0;height:100%;
+ background:linear-gradient(90deg,var(--green),var(--cyan));
+ box-shadow:0 0 15px var(--green);transition:width .2s
+}
+.btn{
+ display:block;width:100%;padding:15px;margin-top:13px;
+ color:#00150e;background:linear-gradient(90deg,var(--green),var(--cyan));
+ border:0;border-radius:10px;font-weight:900;letter-spacing:2px;
+ cursor:pointer;text-decoration:none;
+ box-shadow:0 0 20px #00ff9c44;transition:.25s
+}
+.btn:hover{transform:translateY(-3px);box-shadow:0 0 30px var(--green)}
+.btn.secondary{
+ color:var(--green);background:#031b14;
+ border:1px solid var(--green);box-shadow:none
+}
+.btn:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.join-card{
+ border:1px solid #00ff9c55;border-radius:13px;
+ padding:16px;margin-top:14px;background:#041a13;
+ text-align:left
+}
+.join-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.join-head strong{color:white;font-size:14px}
+.status{font-size:11px;color:#ffb84d}
+.status.done{color:var(--green)}
+.small{font-size:11px;margin-top:7px}
+.key-box{
+ border:1px dashed var(--green);padding:18px;
+ border-radius:12px;margin:20px 0;
+ color:var(--green);font-family:monospace;
+ font-size:21px;letter-spacing:2px;
+ overflow-wrap:anywhere;
+ background:#00130d;box-shadow:inset 0 0 20px #00ff9c18
+}
+.admin{
+ position:fixed;right:12px;top:12px;z-index:10;
+ padding:10px 13px;border:1px solid var(--green);
+ background:#03120e;color:var(--green);
+ border-radius:9px;font-size:11px;font-weight:bold;
+ cursor:pointer
+}
+.music{
+ position:fixed;left:12px;top:12px;z-index:10;
+ padding:10px 13px;border:1px solid var(--cyan);
+ background:#03120e;color:var(--cyan);
+ border-radius:9px;font-size:11px;cursor:pointer
+}
+input,select{
+ width:100%;padding:13px;margin:7px 0;
+ border:1px solid #00ff9c55;border-radius:8px;
+ color:white;background:#00140e;outline:none
+}
+.hidden{display:none!important}
+.footer{margin-top:18px;font-size:10px;color:#57776a}
+.admin-panel{margin-top:15px}
+.admin-panel label{display:block;text-align:left;color:#9bc9b5;font-size:12px}
+#flash{
+ position:fixed;inset:0;background:white;opacity:0;
+ z-index:20;pointer-events:none
+}
+#flash.go{animation:flash .7s}
+@keyframes flash{0%{opacity:0}35%{opacity:.25}100%{opacity:0}}
+</style>
+</head>
+
+<body>
+<canvas id="matrix"></canvas>
+<div class="glow"></div><div class="glow two"></div>
+<div id="flash"></div>
+
+<button class="admin" onclick="showAdmin()">♛ ADMIN</button>
+<button class="music" onclick="toggleMusic()" id="musicBtn">♫ MUSIC OFF</button>
+
+<audio id="musicPlayer"></audio>
+
+<!-- INTRO -->
+<section class="screen active" id="intro">
+ <div class="panel">
+  <div class="logo-wrap">
+   <div class="ring"></div><div class="ring r2"></div>
+   <img class="logo" src="https://i.postimg.cc/V62Pz61W/acheatofcjpg.png" alt="A CHEAT OFC">
+  </div>
+  <h1>A CHEAT OFC</h1>
+  <h2 id="introTitle">SYSTEM INITIALIZING</h2>
+  <p>PREMIUM DIGITAL EXPERIENCE</p>
+  <div class="terminal" id="terminal">
+   <div id="terminalText">INITIALIZING SYSTEM...</div>
+   <span class="cursor">█</span>
+  </div>
+  <div class="progress"><span id="introProgress"></span></div>
+  <p id="introPercent">0% LOADING</p>
+  <div class="footer">SECURE INTERFACE • A CHEAT OFC</div>
+ </div>
+</section>
+
+<!-- CHANNEL JOIN -->
+<section class="screen" id="join">
+ <div class="panel">
+  <div class="logo-wrap" style="width:115px;height:115px">
+   <div class="ring"></div><div class="ring r2"></div>
+   <img class="logo" style="width:82px;height:82px"
+   src="https://i.postimg.cc/V62Pz61W/acheatofcjpg.png" alt="Logo">
+  </div>
+  <h1>JOIN CHANNELS</h1>
+  <p>Continue karne ke liye dono channel links open karein.</p>
+
+  <div class="join-card">
+   <div class="join-head">
+    <strong>🟢 WHATSAPP CHANNEL</strong>
+    <span class="status" id="waStatus">NOT OPENED</span>
+   </div>
+   <p class="small">Open our official WhatsApp channel.</p>
+   <a class="btn" href="https://whatsapp.com/channel/0029VbC5zTS9Gv7Oxf6udV0o"
+   target="_blank" rel="noopener" onclick="markOpened('wa')">OPEN WHATSAPP</a>
+  </div>
+
+  <div class="join-card">
+   <div class="join-head">
+    <strong>🔴 YOUTUBE CHANNEL</strong>
+    <span class="status" id="ytStatus">NOT OPENED</span>
+   </div>
+   <p class="small">Open our official YouTube channel.</p>
+   <a class="btn" href="https://youtube.com/@modzbyabdullah1?si=VjiiFacKw-DK5hRV"
+   target="_blank" rel="noopener" onclick="markOpened('yt')">OPEN YOUTUBE</a>
+  </div>
+
+  <button class="btn" id="continueBtn" disabled onclick="continueToKey()">
+   🔒 COMPLETE BOTH TO CONTINUE
+  </button>
+  <p class="small" id="joinMessage">2 CHANNELS REMAINING</p>
+ </div>
+</section>
+
+<!-- TRANSITION -->
+<section class="screen" id="transition">
+ <div class="panel">
+  <div class="logo-wrap">
+   <div class="ring"></div><div class="ring r2"></div>
+   <img class="logo" src="https://i.postimg.cc/V62Pz61W/acheatofcjpg.png" alt="Logo">
+  </div>
+  <h1>ACCESS GRANTED</h1>
+  <h2 id="transitionText">VERIFYING PREMIUM ACCESS...</h2>
+  <div class="progress"><span id="transitionProgress"></span></div>
+  <p id="transitionPercent">0%</p>
+ </div>
+</section>
+
+<!-- KEY SCREEN -->
+<section class="screen" id="keyScreen">
+ <div class="panel">
+  <div class="logo-wrap">
+   <div class="ring"></div><div class="ring r2"></div>
+   <img class="logo" src="https://i.postimg.cc/V62Pz61W/acheatofcjpg.png" alt="Logo">
+  </div>
+  <h1>PREMIUM ACCESS</h1>
+  <h2>YOUR PREMIUM KEY</h2>
+  <p>Published premium access key:</p>
+  <div class="key-box" id="publishedKey">NO KEY PUBLISHED</div>
+  <button class="btn" onclick="copyKey()">COPY PREMIUM KEY</button>
+  <p id="copyMessage" class="small"></p>
+  <div class="footer">A CHEAT OFC • PREMIUM SYSTEM</div>
+ </div>
+</section>
+
+<!-- ADMIN LOGIN -->
+<section class="screen" id="adminLogin">
+ <div class="panel">
+  <h1>♛ ADMIN LOGIN</h1>
+  <p>Authorized administrator access only.</p>
+  <input id="adminPassword" type="password" placeholder="Enter admin password">
+  <button class="btn" onclick="loginAdmin()">LOGIN</button>
+  <button class="btn secondary" onclick="goBack()">BACK</button>
+  <p id="adminError" class="small"></p>
+ </div>
+</section>
+
+<!-- ADMIN DASHBOARD -->
+<section class="screen" id="dashboard">
+ <div class="panel">
+  <h1>ADMIN PANEL</h1>
+  <h2>KEY MANAGEMENT</h2>
+  <div class="admin-panel">
+   <label>Premium Key</label>
+   <input id="keyInput" placeholder="Enter premium key">
+   <label>Expiry Date</label>
+   <input id="expiryInput" type="date">
+   <label>Device Limit</label>
+   <select id="deviceInput">
+    <option value="1">1 Device</option>
+    <option value="2">2 Devices</option>
+    <option value="5">5 Devices</option>
+    <option value="10">10 Devices</option>
+    <option value="50">50 Devices</option>
+    <option value="100">100 Devices</option>
+    <option value="500">500 Devices</option>
+    <option value="1000">1000 Devices</option>
+    <option value="2000">2000 Devices</option>
+   </select>
+   <button class="btn" onclick="publishKey()">PUBLISH KEY</button>
+   <button class="btn secondary" onclick="removeKey()">REMOVE KEY</button>
+   <button class="btn secondary" onclick="logoutAdmin()">LOGOUT ADMIN</button>
+   <p id="adminMessage" class="small"></p>
+  </div>
+ </div>
+</section>
+
+<script>
+// MATRIX RAIN BACKGROUND
+const canvas=document.getElementById("matrix");
+const ctx=canvas.getContext("2d");
+let fontSize=14,columns,drops;
+function resizeMatrix(){
+ canvas.width=innerWidth;canvas.height=innerHeight;
+ columns=Math.floor(canvas.width/fontSize);
+ drops=Array(columns).fill(1);
+}
+resizeMatrix();addEventListener("resize",resizeMatrix);
+setInterval(()=>{
+ ctx.fillStyle="rgba(0,0,0,0.075)";
+ ctx.fillRect(0,0,canvas.width,canvas.height);
+ ctx.fillStyle="#00ff9c";ctx.font=fontSize+"px monospace";
+ for(let i=0;i<drops.length;i++){
+  let char=String.fromCharCode(0x30A0+Math.random()*96);
+  ctx.fillText(char,i*fontSize,drops[i]*fontSize);
+  if(drops[i]*fontSize>canvas.height&&Math.random()>.975)drops[i]=0;
+  drops[i]++;
+ }
+},45);
+
+// SCREEN CONTROL
+function showScreen(id){
+ document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+ document.getElementById(id).classList.add("active");
+}
+function flash(){
+ const f=document.getElementById("flash");
+ f.classList.remove("go");void f.offsetWidth;f.classList.add("go");
+}
+
+// AUTOMATIC INTRO
+const introLines=[
+"> BOOTING A CHEAT OFC...",
+"> LOADING VISUAL INTERFACE...",
+"> INITIALIZING MATRIX ENGINE...",
+"> CHECKING PREMIUM MODULE...",
+"> SYSTEM READY."
+];
+let line=0;
+function typeIntro(){
+ if(line<introLines.length){
+  document.getElementById("terminalText").innerHTML+=
+   "<br>"+introLines[line];
+  line++;setTimeout(typeIntro,650);
+ }else{
+  document.getElementById("introTitle").textContent="SYSTEM READY";
+  setTimeout(()=>showScreen("join"),900);
+ }
+}
+setTimeout(typeIntro,700);
+
+// JOIN LINK TRACKING
+function markOpened(channel){
+ localStorage.setItem("acheat_join_"+channel,"yes");
+ setTimeout(updateJoinStatus,300);
+}
+function updateJoinStatus(){
+ const wa=localStorage.getItem("acheat_join_wa")==="yes";
+ const yt=localStorage.getItem("acheat_join_yt")==="yes";
+ document.getElementById("waStatus").textContent=wa?"✓ OPENED":"NOT OPENED";
+ document.getElementById("ytStatus").textContent=yt?"✓ OPENED":"NOT OPENED";
+ document.getElementById("waStatus").className="status "+(wa?"done":"");
+ document.getElementById("ytStatus").className="status "+(yt?"done":"");
+ const complete=wa&&yt;
+ const btn=document.getElementById("continueBtn");
+ btn.disabled=!complete;
+ btn.textContent=complete?"⚡ CONTINUE":"🔒 COMPLETE BOTH TO CONTINUE";
+ document.getElementById("joinMessage").textContent=
+ complete?"BOTH LINKS OPENED • ACCESS READY":
+ (2-(wa?1:0)-(yt?1:0))+" CHANNEL(S) REMAINING";
+}
+updateJoinStatus();
+
+// CONTINUE TRANSITION
+function continueToKey(){
+ if(localStorage.getItem("acheat_join_wa")!=="yes"||
+ localStorage.getItem("acheat_join_yt")!=="yes")return;
+ flash();showScreen("transition");
+ let n=0;
+ const bar=document.getElementById("transitionProgress");
+ const percent=document.getElementById("transitionPercent");
+ const timer=setInterval(()=>{
+  n+=2;bar.style.width=n+"%";percent.textContent=n+"%";
+  if(n>=100){
+   clearInterval(timer);
+   document.getElementById("transitionText").textContent="PREMIUM SYSTEM READY";
+   setTimeout(()=>{showScreen("keyScreen");renderKey()},600);
+  }
+ },35);
+}
+
+// KEY STORAGE
+const STORAGE_KEY="acheat_ofc_license_v2";
+function getLicense(){
+ try{return JSON.parse(localStorage.getItem(STORAGE_KEY))||null}
+ catch(e){return null}
+}
+function renderKey(){
+ const data=getLicense();
+ const out=document.getElementById("publishedKey");
+ if(!data||!data.key){out.textContent="NO KEY PUBLISHED";return}
+ const expired=data.expiry&&new Date(data.expiry+"T23:59:59")<new Date();
+ out.textContent=expired?"KEY EXPIRED":data.key;
+}
+function copyKey(){
+ const data=getLicense();
+ if(!data||!data.key){
+  document.getElementById("copyMessage").textContent="No key available.";
+  return;
+ }
+ if(data.expiry&&new Date(data.expiry+"T23:59:59")<new Date()){
+  document.getElementById("copyMessage").textContent="This key has expired.";
+  return;
+ }
+ const temp=document.createElement("textarea");
+ temp.value=data.key;document.body.appendChild(temp);
+ temp.select();
+ try{
+  document.execCommand("copy");
+  document.getElementById("copyMessage").textContent="KEY COPIED!";
+ }catch(e){
+  document.getElementById("copyMessage").textContent="Please copy manually.";
+ }
+ temp.remove();
+}
+
+// ADMIN
+function showAdmin(){
+ showScreen("adminLogin");
+ document.getElementById("adminError").textContent="";
+}
+function loginAdmin(){
+ const pass=document.getElementById("adminPassword").value;
+ if(pass==="ACHEATOFC"){
+  showScreen("dashboard");loadAdmin();
+ }else{
+  document.getElementById("adminError").textContent="Incorrect password.";
+ }
+}
+function loadAdmin(){
+ const data=getLicense();
+ if(data){
+  document.getElementById("keyInput").value=data.key||"";
+  document.getElementById("expiryInput").value=data.expiry||"";
+  document.getElementById("deviceInput").value=String(data.devices||1);
+ }
+}
+function publishKey(){
+ const key=document.getElementById("keyInput").value.trim();
+ const expiry=document.getElementById("expiryInput").value;
+ const devices=Number(document.getElementById("deviceInput").value);
+ if(!key){
+  document.getElementById("adminMessage").textContent="Please enter a key.";
+  return;
+ }
+ const data={key,expiry,devices,publishedAt:new Date().toISOString()};
+ localStorage.setItem(STORAGE_KEY,JSON.stringify(data));
+ document.getElementById("adminMessage").textContent="Key saved on this browser.";
+}
+function removeKey(){
+ localStorage.removeItem(STORAGE_KEY);
+ document.getElementById("keyInput").value="";
+ document.getElementById("adminMessage").textContent="Key removed.";
+}
+function logoutAdmin(){
+ document.getElementById("adminPassword").value="";
+ showScreen("intro");
+}
+function goBack(){showScreen("intro")}
+
+// MUSIC PLAYLIST
+const tracks=[
+ "https://videotourl.com/audio/1795034496118-f8f2f1d4-bd01-4372-a5af-39ea31059535.mp3",
+ "https://videotourl.com/audio/1795034741085-a66fe515-97c8-4a97-b10a-96f518011a3d.m4a"
+];
+let trackIndex=0;
+const player=document.getElementById("musicPlayer");
+let musicOn=false;
+function playTrack(){
+ player.src=tracks[trackIndex];
+ player.play().then(()=>{
+  musicOn=true;document.getElementById("musicBtn").textContent="♫ MUSIC ON";
+ }).catch(()=>{
+  musicOn=false;document.getElementById("musicBtn").textContent="♫ TAP MUSIC";
+ });
+}
+player.addEventListener("ended",()=>{
+ trackIndex=(trackIndex+1)%tracks.length;
+ if(musicOn)playTrack();
+});
+function toggleMusic(){
+ if(musicOn){
+  player.pause();musicOn=false;
+  document.getElementById("musicBtn").textContent="♫ MUSIC OFF";
+ }else playTrack();
+}
+</script>
+</body>
+</html>
